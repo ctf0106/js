@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>noah</title>
+    <style type="text/css">
+div
+{
+    width:100px;
+    height:100px;
+    border: 1px dotted red;
+    background-color: #ffffff;
+    position:absolute;
+    overflow:auto;
+}
+#divContainer
+{
+    width: 800px;
+    height: 500px;
+top:130;
+    border: 1px solid blue;
+    background-color: #dddddd;
+    overflow: hidden;
+}
+#cc
+{
+width:10;
+height:10;
+border: 1px dotted red;
+background-color:#ffffff;
+}
+    </style>
+</head>
+<body>
+    <h3>Div 不重叠随机分布！</h3>
+    <div id="divContainer">
+<div>
+        <div><div id="cc">d01-1</div><div id="cc">d01-2</div>d01</div>
+</div>
+        <div>d02</div>
+        <div>d03</div>
+        <div>d04</div>
+        <div>d05</div>
+        <div>d06</div>
+        <div>d07</div>
+        <div>d08</div>
+    </div>
+</body>
+<script type="text/javascript">
+<!--
+
+/*
+ * 如果不希望压边，
+ * 可以适当调大 iDivWidth 和 iDivHeight。
+ * 对象过多会很慢
+ */
+var iDivWidth = 130;
+var iDivHeight = 130;
+
+var iMaxX = 800-100;
+var iMaxY = 500-100;
+
+var oPosition = new Object();
+oPosition.x = 0;
+oPosition.y = 0;
+
+var aX = new Array();
+var aY = new Array();
+
+// 是否相互影响。
+function isInteractOnEachOther(oPos)
+{
+    // For debug only.
+    //alert(aX+"\n"+aY+"\n"+oPos.x+"\n"+oPos.y);
+    var bIsInteract = false;
+
+    for (var i=0; i<aX.length; i++)
+    {
+        if ( ((oPos.x>(aX[i]-iDivWidth))&&(oPos.x<(aX[i]+iDivWidth)))
+            && ((oPos.y>(aY[i]-iDivHeight))&&(oPos.y<(aY[i]+iDivHeight))) )
+        {
+            bIsInteract = true;
+            break;
+        }
+    }
+
+    if (!bIsInteract)
+    {
+        aX[aX.length] = oPos.x;
+        aY[aY.length] = oPos.y;
+    }
+
+    return bIsInteract;
+}
+
+var oContainer = document.getElementById("divContainer");
+
+var obj_divs = oContainer.getElementsByTagName("div");
+
+for(var i=0; i<obj_divs.length; i++)
+{
+do
+{
+oPosition.x = Math.ceil(Math.random()*iMaxX);
+oPosition.y = Math.ceil(Math.random()*iMaxY);
+}
+while (isInteractOnEachOther(oPosition));
+
+obj_divs[i].style.left = oPosition.x + "px";
+obj_divs[i].style.top = oPosition.y + "px";
+}
+
+//-->
+</script>
+</html>
